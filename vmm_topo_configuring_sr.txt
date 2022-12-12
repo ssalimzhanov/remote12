@@ -1,0 +1,200 @@
+#define  VMX_PHASE 3
+#include "/vmm/data/user_disks/vmxc/common.vmx.p3.defs"
+#include "/vmm/bin/common.defs"
+
+
+#define  VMX_DISK1 basedisk "/vmm/data/user_disks/###your_path###/junos-virtual-x86-64-21.2R3-S2.9.vmdk";
+
+
+
+TOPOLOGY_START(vmx_topology)
+
+#undef  VMX_CHASSIS_I2CID
+#undef  VMX_CHASSIS_NAME
+#define VMX_CHASSIS_I2CID       33
+#define VMX_CHASSIS_NAME        R1
+VMX_CHASSIS_START()
+    VMX_RE_START(R1, 0)
+        VMX_RE_INSTANCE(R1, VMX_DISK1, VMX_RE_I2CID, 0)
+        SSH_KEY_INSTALL
+    VMX_RE_END
+    VMX_MPC_START(R1_MPC, 0)
+        VMX_MPC_INSTANCE(R1_MPC, VMX_DISK1, VMX_MPC_I2CID, 0)
+        VMX_CONNECT(GE(0,0,0), private1)            /*  R2  ge-0/0/0  */
+        VMX_CONNECT(GE(0,0,1), private2)            /*  R4  ge-0/0/1  */
+        VMX_CONNECT(GE(0,0,2), private3)            /*  R3  ge-0/0/2  */
+        VMX_CONNECT(GE(0,0,3), private4)            /*  R10 ge-0/0/3  */
+        VMX_CONNECT(GE(0,0,4), private5)            /*  R10 ge-0/0/4  */
+    VMX_MPC_END
+VMX_CHASSIS_END
+
+
+#undef  VMX_CHASSIS_I2CID
+#undef  VMX_CHASSIS_NAME
+#define VMX_CHASSIS_I2CID       33
+#define VMX_CHASSIS_NAME        R2
+VMX_CHASSIS_START()
+    VMX_RE_START(R2, 0)
+        VMX_RE_INSTANCE(R2, VMX_DISK1, VMX_RE_I2CID, 0)
+        SSH_KEY_INSTALL
+    VMX_RE_END
+    VMX_MPC_START(R2_MPC, 0)
+        VMX_MPC_INSTANCE(R2_MPC, VMX_DISK1, VMX_MPC_I2CID, 0)
+        VMX_CONNECT(GE(0,0,0), private1)            /*  R1  ge-0/0/0  */
+        VMX_CONNECT(GE(0,0,1), private6)            /*  R5  ge-0/0/1  */
+        VMX_CONNECT(GE(0,0,2), private7)            /*  R10 ge-0/0/2  */
+        VMX_CONNECT(GE(0,0,5), private8)            /*  R10 ge-0/0/5  */
+    VMX_MPC_END
+VMX_CHASSIS_END
+
+#undef  VMX_CHASSIS_I2CID
+#undef  VMX_CHASSIS_NAME
+#define VMX_CHASSIS_I2CID       33
+#define VMX_CHASSIS_NAME        R3
+VMX_CHASSIS_START()
+    VMX_RE_START(R3, 0)
+        VMX_RE_INSTANCE(R3, VMX_DISK1, VMX_RE_I2CID, 0)
+        SSH_KEY_INSTALL
+    VMX_RE_END
+    VMX_MPC_START(R3_MPC, 0)
+        VMX_MPC_INSTANCE(R3_MPC, VMX_DISK1, VMX_MPC_I2CID, 0)
+        VMX_CONNECT(GE(0,0,2), private3)            /*  R1  ge-0/0/2  */
+        VMX_CONNECT(GE(0,0,4), private9)            /*  R6  ge-0/0/4  */
+    VMX_MPC_END
+VMX_CHASSIS_END
+
+#undef  VMX_CHASSIS_I2CID
+#undef  VMX_CHASSIS_NAME
+#define VMX_CHASSIS_I2CID       33
+#define VMX_CHASSIS_NAME        R4
+VMX_CHASSIS_START()
+    VMX_RE_START(R4, 0)
+        VMX_RE_INSTANCE(R4, VMX_DISK1, VMX_RE_I2CID, 0)
+        SSH_KEY_INSTALL
+    VMX_RE_END
+    VMX_MPC_START(R4_MPC, 0)
+        VMX_MPC_INSTANCE(R4_MPC, VMX_DISK1, VMX_MPC_I2CID, 0)
+        VMX_CONNECT(GE(0,0,0), private10)           /*  R5  ge-0/0/0  */
+        VMX_CONNECT(GE(0,0,1), private2)            /*  R1  ge-0/0/1  */
+        VMX_CONNECT(GE(0,0,2), private11)           /*  R6  ge-0/0/2  */
+        VMX_CONNECT(GE(0,0,3), private12)           /*  R6  ge-0/0/3  */
+
+    VMX_MPC_END
+VMX_CHASSIS_END
+
+#undef  VMX_CHASSIS_I2CID
+#undef  VMX_CHASSIS_NAME
+#define VMX_CHASSIS_I2CID       33
+#define VMX_CHASSIS_NAME        R5
+VMX_CHASSIS_START()
+    VMX_RE_START(R5, 0)
+        VMX_RE_INSTANCE(R5, VMX_DISK1, VMX_RE_I2CID, 0)
+        SSH_KEY_INSTALL
+    VMX_RE_END
+    VMX_MPC_START(R5_MPC, 0)
+        VMX_MPC_INSTANCE(R5_MPC, VMX_DISK1, VMX_MPC_I2CID, 0)
+        VMX_CONNECT(GE(0,0,0), private10)           /*  R4  ge-0/0/0  */
+        VMX_CONNECT(GE(0,0,1), private6)            /*  R2  ge-0/0/1  */
+        VMX_CONNECT(GE(0,0,2), private13)           /*  R7  ge-0/0/2  */
+        VMX_CONNECT(GE(0,0,3), private14)           /*  R7  ge-0/0/3  */
+    VMX_MPC_END
+VMX_CHASSIS_END
+
+#undef  VMX_CHASSIS_I2CID
+#undef  VMX_CHASSIS_NAME
+#define VMX_CHASSIS_I2CID       33
+#define VMX_CHASSIS_NAME        R6
+VMX_CHASSIS_START()
+    VMX_RE_START(R6, 0)
+        VMX_RE_INSTANCE(R6, VMX_DISK1, VMX_RE_I2CID, 0)
+        SSH_KEY_INSTALL
+    VMX_RE_END
+    VMX_MPC_START(R6_MPC, 0)
+        VMX_MPC_INSTANCE(R6_MPC, VMX_DISK1, VMX_MPC_I2CID, 0)
+        VMX_CONNECT(GE(0,0,0), private17)           /*  R7  ge-0/0/0  */
+        VMX_CONNECT(GE(0,0,1), private15)           /*  R8  ge-0/0/1  */
+        VMX_CONNECT(GE(0,0,2), private11)           /*  R4  ge-0/0/2  */
+        VMX_CONNECT(GE(0,0,3), private12)           /*  R4  ge-0/0/3  */
+        VMX_CONNECT(GE(0,0,4), private9)            /*  R3  ge-0/0/4  */
+    VMX_MPC_END
+VMX_CHASSIS_END
+
+#undef  VMX_CHASSIS_I2CID
+#undef  VMX_CHASSIS_NAME
+#define VMX_CHASSIS_I2CID       33
+#define VMX_CHASSIS_NAME        R7
+VMX_CHASSIS_START()
+    VMX_RE_START(R7, 0)
+        VMX_RE_INSTANCE(R7, VMX_DISK1, VMX_RE_I2CID, 0)
+        SSH_KEY_INSTALL
+    VMX_RE_END
+    VMX_MPC_START(R7_MPC, 0)
+        VMX_MPC_INSTANCE(R7_MPC, VMX_DISK1, VMX_MPC_I2CID, 0)
+        VMX_CONNECT(GE(0,0,0), private17)           /*  R6  ge-0/0/0  */
+        VMX_CONNECT(GE(0,0,1), private16)           /*  R9  ge-0/0/1  */
+        VMX_CONNECT(GE(0,0,2), private13)           /*  R5  ge-0/0/2  */
+        VMX_CONNECT(GE(0,0,3), private14)           /*  R5  ge-0/0/3  */
+    VMX_MPC_END
+VMX_CHASSIS_END
+
+#undef  VMX_CHASSIS_I2CID
+#undef  VMX_CHASSIS_NAME
+#define VMX_CHASSIS_I2CID       33
+#define VMX_CHASSIS_NAME        R8
+VMX_CHASSIS_START()
+    VMX_RE_START(R8, 0)
+        VMX_RE_INSTANCE(R8, VMX_DISK1, VMX_RE_I2CID, 0)
+        SSH_KEY_INSTALL
+    VMX_RE_END
+    VMX_MPC_START(R8_MPC, 0)
+        VMX_MPC_INSTANCE(R8_MPC, VMX_DISK1, VMX_MPC_I2CID, 0)
+        VMX_CONNECT(GE(0,0,0), private20)           /*  R9  ge-0/0/0  */
+        VMX_CONNECT(GE(0,0,1), private15)           /*  R6  ge-0/0/1  */
+        VMX_CONNECT(GE(0,0,8), private18)           /*  R10 ge-0/0/8  */
+        VMX_CONNECT(GE(0,0,9), private19)           /*  R10 ge-0/0/9  */
+
+    VMX_MPC_END
+VMX_CHASSIS_END
+
+#undef  VMX_CHASSIS_I2CID
+#undef  VMX_CHASSIS_NAME
+#define VMX_CHASSIS_I2CID       33
+#define VMX_CHASSIS_NAME        R9
+VMX_CHASSIS_START()
+    VMX_RE_START(R9, 0)
+        VMX_RE_INSTANCE(R9, VMX_DISK1, VMX_RE_I2CID, 0)
+        SSH_KEY_INSTALL
+    VMX_RE_END
+    VMX_MPC_START(R9_MPC, 0)
+        VMX_MPC_INSTANCE(R9_MPC, VMX_DISK1, VMX_MPC_I2CID, 0)
+        VMX_CONNECT(GE(0,0,0), private20)           /*  R8  ge-0/0/0  */
+        VMX_CONNECT(GE(0,0,1), private16)           /*  R7  ge-0/0/1  */
+        VMX_CONNECT(GE(0,0,6), private21)           /*  R10 ge-0/0/6  */
+        VMX_CONNECT(GE(0,0,7), private22)           /*  R10 ge-0/0/7  */
+    VMX_MPC_END
+VMX_CHASSIS_END
+
+#undef  VMX_CHASSIS_I2CID
+#undef  VMX_CHASSIS_NAME
+#define VMX_CHASSIS_I2CID       33
+#define VMX_CHASSIS_NAME        R10
+VMX_CHASSIS_START()
+    VMX_RE_START(R10, 0)
+        VMX_RE_INSTANCE(R10, VMX_DISK1, VMX_RE_I2CID, 0)
+        SSH_KEY_INSTALL
+    VMX_RE_END
+    VMX_MPC_START(R10_MPC, 0)
+        VMX_MPC_INSTANCE(R10_MPC, VMX_DISK1, VMX_MPC_I2CID, 0)
+        VMX_CONNECT(GE(0,0,2), private7)            /*  R2  ge-0/0/2  */
+        VMX_CONNECT(GE(0,0,3), private4)            /*  R1  ge-0/0/3  */
+        VMX_CONNECT(GE(0,0,4), private5)            /*  R1  ge-0/0/4  */
+        VMX_CONNECT(GE(0,0,5), private8)            /*  R2  ge-0/0/5  */
+        VMX_CONNECT(GE(0,0,6), private21)           /*  R9  ge-0/0/6  */
+        VMX_CONNECT(GE(0,0,7), private22)           /*  R9  ge-0/0/7  */
+        VMX_CONNECT(GE(0,0,8), private18)           /*  R8  ge-0/0/8  */
+        VMX_CONNECT(GE(0,0,9), private19)           /*  R8  ge-0/0/9  */
+    VMX_MPC_END
+VMX_CHASSIS_END
+
+PRIVATE_BRIDGES
+TOPOLOGY_END
